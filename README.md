@@ -1,69 +1,68 @@
 # ckb-auth-examples
-Example projects for ckb-auth: https://github.com/nervosnetwork/ckb-auth
+This is example projects for [ckb-auth](https://github.com/nervosnetwork/ckb-auth)
 
+Before compilation, ensure that submodules and their dependencies are updated:
 
-Submodules and their dependencies need to be updated before compilation:
 ```shell
 git submodule update --init --recursive
 ```
 
-## Rust example
+## Rust Example
 
-### Install tools
-The rust example depends on capsule and cross, Need to install before compiling:
+### Install Tools
+The Rust example relies on capsule and cross; they need to be installed before compiling:
 
 ```shell
 cargo install ckb-capsule --version "0.10.2"
 cargo install cross --git https://github.com/cross-rs/cross
 ```
-* The capsule requires 0.10.2
-* The cross requires the main branch (some bugs have been solved, and a new version has not been released yet).
+
+- The `capsule` version required is 0.10.2.
+- The `cross` requires the main branch (some bugs have been resolved, and a new version has not been released yet).
 
 ### Build
-In directory `Rust`:
+In the `Rust` directory:
 
 ```shell
-capsule build
+capsule build --release
 ```
 
 ### Test
-In directory `Rust`:
+In the `Rust/tests` directory:
 
 ```shell
-capsule test
+cargo test
 ```
 
-`deps/ckb-auth` is compiled in `Rust/tests/build.rs`, and `auth` and `secp256k1_data_20210801` are copied to `Rust/build` for testing.
+The compilation of `deps/ckb-auth` occurs in `Rust/tests/build.rs`. Subsequently, `auth` and `secp256k1_data_20210801` are copied to `Rust/build` for testing.
 
-The tests here only have a few simple cases. More test cases in ckb-auth.
+Note: The provided tests cover only a few simple cases; more test cases are available in ckb-auth.
 
-
-## C example
+## C Example
 
 ### Build
-In directory C:
+In the `C` directory:
+
 ```shell
 make all-via-docker
-# build with GNU toolchain
+# Build with GNU toolchain
 ```
 
 or
 
 ```shell
 make -f Makefile.clang all
-# build with LLVM toolchain
+# Build with LLVM toolchain
 ```
 
-The compilation results are in `C/build`. 
+The compilation results are stored in `C/build`.
 
-If in docker to compile: the docker mapping directory should be this repo, because the code depends on `ckb_auth.h`.
-
+When compiling within Docker, ensure that the Docker mapping directory is this repository, as the code depends on `ckb_auth.h`.
 
 ### Test
-The contract interfaces of C example and Rust example are same, so C example generally uses rust's tests.
-Here, copy the C bin directly to `Rust/build/debug` and rename it to `auth-rust-example`. 
+The contract interfaces of the C example and Rust example are the same. Thus, the C example generally uses Rust's tests. Here, copy the C binary directly to `Rust/build/debug` and rename it to `auth-rust-example`.
 
 In actual use:
-* Copy `Rust/tests` to C language contract directory.
-* Modify the name in `src/lib.rs`.
-* Copy `auth` and `secp256k1_data_20210801` to `build`.
+- Copy `Rust/tests` to the C language contract directory.
+- Modify the name in `src/lib.rs`.
+- Copy `auth` and `secp256k1_data_20210801` to the `build` directory.
